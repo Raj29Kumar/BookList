@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBooks } from '../redux/booksSlice';
 import Pagination from './Pagination';
 import AddBook from './AddBook';
+import EditBookModal from './EditBookModel';
 
 const BookList = () => {
     const [query, setQuery] = useState('');
@@ -28,7 +29,6 @@ const BookList = () => {
 
     useEffect(() => {
         const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
-
         if (currentPage > totalPages && totalPages > 0) {
             setCurrentPage(totalPages);
         } else if (filteredBooks.length === 0) {
@@ -67,7 +67,7 @@ const BookList = () => {
     };
 
     const openEditModal = (book) => {
-        setEditBookData(book);
+        setEditBookData({ ...book });
         setEditModalOpen(true);
     };
 
@@ -77,21 +77,25 @@ const BookList = () => {
     };
 
     const handleEditSubmit = async (updatedBook) => {
-        const response = await fetch(`http://64.227.142.191:8080/application-test-v1.1/books/${updatedBook.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedBook),
-        });
+        try {
+            const response = await fetch(`http://64.227.142.191:8080/application-test-v1.1/books/${updatedBook.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedBook),
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to update book');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update book');
+            }
+
+            dispatch(fetchBooks());
+            closeEditModal();
+        } catch (error) {
+            console.error('Error updating book:', error.message);
         }
-
-        dispatch(fetchBooks()); 
-        closeEditModal();
     };
 
     if (loading) {
@@ -161,9 +165,9 @@ const BookList = () => {
                             }}
                         >
                             <div>
-                                <strong>Title:</strong> {book.title}
+                                <strong>Title:</strong> {book.title || 'N/A'}
                                 <br />
-                                <strong>Author:</strong> {book.author}
+                                <strong>Author:</strong> {book.author || 'N/A'}
                                 <br />
                                 <strong>Year:</strong> {book.year || 'N/A'}
                             </div>
@@ -198,49 +202,15 @@ const BookList = () => {
             />
 
             {isEditModalOpen && (
-                <div className="edit-modal">
-                    <h2>Edit Book</h2>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            handleEditSubmit(editBookData);
-                        }}
-                    >
-                        <div>
-                            <label>Title</label>
-                            <input
-                                type="text"
-                                value={editBookData?.title || ''}
-                                onChange={(e) => setEditBookData({ ...editBookData, title: e.target.value })}
-                            />
-                        </div>
-                        <div>
-                            <label>Author</label>
-                            <input
-                                type="text"
-                                value={editBookData?.author || ''}
-                                onChange={(e) => setEditBookData({ ...editBookData, author: e.target.value })}
-                            />
-                        </div>
-                        <div>
-                            <label>Year</label>
-                            <input
-                                type="text"
-                                value={editBookData?.year || ''}
-                                onChange={(e) => setEditBookData({ ...editBookData, year: e.target.value })}
-                            />
-                        </div>
-                        <button type="submit">Save Changes</button>
-                        <button type="button" onClick={closeEditModal}>
-                            Cancel
-                        </button>
-                    </form>
-                </div>
+                <EditBookModal
+                    editBookData={editBookData}
+                    setEditBookData={setEditBookData}
+                    handleEditSubmit={handleEditSubmit}
+                    closeEditModal={closeEditModal}
+                />
             )}
         </div>
     );
 };
 
 export default BookList;
-
-

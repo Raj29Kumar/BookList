@@ -1,0 +1,163 @@
+import React, { useState } from "react";
+
+const App = () => {
+  const [states, setStates] = useState([]); // List of states
+  const [cities, setCities] = useState([]); // List of cities
+  const [newState, setNewState] = useState(""); // New state input
+  const [newCity, setNewCity] = useState(""); // New city input
+  const [selectedState, setSelectedState] = useState(""); // Selected state for the city
+  const [currentPage, setCurrentPage] = useState(1); // Pagination control
+
+  const itemsPerPage = 5;
+
+  // Add a new state
+  const addState = () => {
+    if (!newState.trim()) {
+      alert("State name cannot be empty.");
+      return;
+    }
+    if (states.includes(newState)) {
+      alert("State already exists.");
+      return;
+    }
+    setStates([...states, newState]);
+    setNewState("");
+  };
+
+  // Add a new city
+  const addCity = () => {
+    if (!newCity.trim() || !selectedState) {
+      alert("City name and state selection are required.");
+      return;
+    }
+    if (cities.find((city) => city.name === newCity && city.state === selectedState)) {
+      alert("City already exists in the selected state.");
+      return;
+    }
+    setCities([...cities, { name: newCity, state: selectedState }]);
+    setNewCity("");
+  };
+
+  // Edit a city
+  const editCity = (index) => {
+    const cityName = prompt("Enter new city name:", cities[index].name);
+    if (cityName && cityName.trim()) {
+      const updatedCities = [...cities];
+      updatedCities[index].name = cityName;
+      setCities(updatedCities);
+    }
+  };
+
+  // Delete a city
+  const deleteCity = (index) => {
+    const updatedCities = cities.filter((_, i) => i !== index);
+    setCities(updatedCities);
+  };
+
+  // Pagination logic
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedCities = cities.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(cities.length / itemsPerPage);
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">City-State Manager</h1>
+      
+      {/* Add State Section */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Enter state name"
+          value={newState}
+          onChange={(e) => setNewState(e.target.value)}
+          className="border p-2 mr-2"
+        />
+        <button onClick={addState} className="bg-blue-500 text-white p-2 rounded">
+          Add State
+        </button>
+      </div>
+
+      {/* Add City Section */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Enter city name"
+          value={newCity}
+          onChange={(e) => setNewCity(e.target.value)}
+          className="border p-2 mr-2"
+        />
+        <select
+          value={selectedState}
+          onChange={(e) => setSelectedState(e.target.value)}
+          className="border p-2 mr-2"
+        >
+          <option value="">Select State</option>
+          {states.map((state, index) => (
+            <option key={index} value={state}>
+              {state}
+            </option>
+          ))}
+        </select>
+        <button onClick={addCity} className="bg-green-500 text-white p-2 rounded">
+          Add City
+        </button>
+      </div>
+
+      {/* City Table */}
+      <table className="table-auto w-full border-collapse border border-gray-200 mb-4">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border p-2">City</th>
+            <th className="border p-2">State</th>
+            <th className="border p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedCities.map((city, index) => (
+            <tr key={index}>
+              <td className="border p-2">{city.name}</td>
+              <td className="border p-2">{city.state}</td>
+              <td className="border p-2">
+                <button
+                  onClick={() => editCity(startIndex + index)}
+                  className="text-blue-500 mr-2"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteCity(startIndex + index)}
+                  className="text-red-500"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          className="bg-gray-200 p-2 rounded"
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          className="bg-gray-200 p-2 rounded"
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default App;

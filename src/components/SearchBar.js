@@ -10,7 +10,6 @@ const SearchBar = ({ query, setQuery }) => {
         placeholder="Search books..."
         style={{
           padding: '10px',
-        //   width: '100%',
           border: '1px solid #ccc',
           borderRadius: '5px',
         }}

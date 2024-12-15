@@ -1,18 +1,15 @@
 import React from 'react';
+import '../App.css';
 
 const SearchBar = ({ query, setQuery }) => {
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div className="search-bar">
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search books..."
-        style={{
-          padding: '10px',
-          border: '1px solid #ccc',
-          borderRadius: '5px',
-        }}
+        className="search-input"
       />
     </div>
   );

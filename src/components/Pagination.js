@@ -1,18 +1,13 @@
 import React from 'react';
+import '../App.css';
 
 const Pagination = ({ currentPage, totalPages, paginate }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
+    <div className="pagination-container">
       <button
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
-        style={{
-          padding: '10px 15px',
-          borderRadius: '5px',
-          backgroundColor: '#f8f9fa',
-          border: '1px solid #ccc',
-          cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-        }}
+        className="pagination-button previous"
       >
         Previous
       </button>
@@ -21,14 +16,7 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
         <button
           key={page}
           onClick={() => paginate(page)}
-          style={{
-            padding: '10px 15px',
-            borderRadius: '5px',
-            backgroundColor: currentPage === page ? '#007bff' : '#f8f9fa',
-            color: currentPage === page ? '#fff' : '#000',
-            border: '1px solid #ccc',
-            cursor: 'pointer',
-          }}
+          className={`pagination-button ${currentPage === page ? 'active' : ''}`}
         >
           {page}
         </button>
@@ -37,13 +25,7 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
       <button
         onClick={() => paginate(currentPage + 1)}
         disabled={currentPage === totalPages}
-        style={{
-          padding: '10px 15px',
-          borderRadius: '5px',
-          backgroundColor: '#f8f9fa',
-          border: '1px solid #ccc',
-          cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-        }}
+        className="pagination-button next"
       >
         Next
       </button>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBook } from '../redux/booksSlice';
+import '../App.css'; // Assuming CSS file is named AddBook.css
 
 const AddBook = ({ closeModal }) => {
   const [formData, setFormData] = useState({
@@ -36,33 +37,13 @@ const AddBook = ({ closeModal }) => {
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: '20px',
-          borderRadius: '10px',
-          width: '600px',
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <h2 style={{ marginTop: '0' }}>Add New Book</h2>
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <h2>Add New Book</h2>
         <form onSubmit={handleSubmit}>
-        <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Author</label>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Author</label>
               <input
                 type="text"
                 name="author"
@@ -70,16 +51,10 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Author Name"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Country</label>
+            <div className="form-group">
+              <label>Country</label>
               <input
                 type="text"
                 name="country"
@@ -87,19 +62,13 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Country Name"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Language</label>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Language</label>
               <input
                 type="text"
                 name="language"
@@ -107,16 +76,10 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Language"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Links</label>
+            <div className="form-group">
+              <label>Links</label>
               <input
                 type="text"
                 name="link"
@@ -124,19 +87,13 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Page Count"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Pages</label>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Pages</label>
               <input
                 type="text"
                 name="pages"
@@ -144,16 +101,10 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Pages"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Title</label>
+            <div className="form-group">
+              <label>Title</label>
               <input
                 type="text"
                 name="title"
@@ -161,19 +112,13 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Title"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>Year</label>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Year</label>
               <input
                 type="text"
                 name="year"
@@ -181,16 +126,10 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter Year"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
-            <div style={{ flex: "1 1 50%" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>ID</label>
+            <div className="form-group">
+              <label>ID</label>
               <input
                 type="text"
                 name="id"
@@ -198,44 +137,14 @@ const AddBook = ({ closeModal }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter ID"
-                style={{
-                  width: "90%",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
               />
             </div>
           </div>
 
-          <button
-            type="submit"
-            style={{
-              padding: '10px 15px',
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              marginRight: '10px',
-            }}
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            onClick={closeModal}
-            style={{
-              padding: '10px 15px',
-              backgroundColor: '#f44336',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-          >
-            Cancel
-          </button>
+          <div className="form-actions">
+            <button type="submit" className="submit-btn">Submit</button>
+            <button type="button" className="cancel-btn" onClick={closeModal}>Cancel</button>
+          </div>
         </form>
       </div>
     </div>

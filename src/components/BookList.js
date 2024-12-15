@@ -5,6 +5,7 @@ import { fetchBooks } from '../redux/booksSlice';
 import Pagination from './Pagination';
 import AddBook from './AddBook';
 import EditBookModal from './EditBookModel';
+import '../App.css';
 
 const BookList = () => {
     const [query, setQuery] = useState('');
@@ -15,7 +16,7 @@ const BookList = () => {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [editBookData, setEditBookData] = useState(null);
 
-    const itemsPerPage = 5;
+    const itemsPerPage = 4;
     const dispatch = useDispatch();
     const { books, loading, error } = useSelector((state) => state.books);
 
@@ -99,20 +100,20 @@ const BookList = () => {
     };
 
     if (loading) {
-        return <p style={{ display: 'flex', justifyContent: 'center' }}>Loading books...</p>;
+        return <p className="loading">Loading books...</p>;
     }
 
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p className="error">Error: {error}</p>;
     }
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
+        <div className="book-list-container">
             <SearchBar query={query} setQuery={setQuery} />
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <label htmlFor="sortField" style={{ marginRight: '10px' }}>Sort by: </label>
+            <div className="controls">
+                <div className="sort-controls">
+                    <label htmlFor="sortField">Sort by: </label>
                     <select
                         id="sortField"
                         value={sortField}
@@ -123,24 +124,17 @@ const BookList = () => {
                     </select>
                 </div>
 
-                <div style={{ flex: 1, textAlign: 'center' }}>
+                <div className="sort-button">
                     <button
                         onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                        style={{
-                            padding: '5px 10px',
-                            backgroundColor: 'gray',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                        }}
+                        className="toggle-sort-order-btn"
                     >
                         {sortOrder === 'asc' ? 'Click To Descending' : 'Click To Ascending'}
                     </button>
                 </div>
 
-                <div style={{ flex: 1, textAlign: 'right' }}>
-                    <button onClick={openModal} style={{ padding: '5px 10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+                <div className="add-book">
+                    <button onClick={openModal} className="add-book-btn">
                         Add New Book
                     </button>
                 </div>
@@ -148,23 +142,11 @@ const BookList = () => {
                 {isModalOpen && <AddBook closeModal={closeModal} />}
             </div>
 
-            <ul>
+            <ul className="book-list">
                 {currentBooks.length > 0 ? (
                     currentBooks.map((book) => (
-                        <li
-                            key={book.id}
-                            style={{
-                                listStyle: 'none',
-                                margin: '10px 0',
-                                padding: '10px',
-                                border: '1px solid #ccc',
-                                borderRadius: '5px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <div>
+                        <li key={book.id} className="book-item">
+                            <div className="book-details">
                                 <strong>Title:</strong> {book.title || 'N/A'}
                                 <br />
                                 <strong>Author:</strong> {book.author || 'N/A'}
@@ -172,18 +154,10 @@ const BookList = () => {
                                 <strong>Year:</strong> {book.year || 'N/A'}
                             </div>
 
-                            <div>
+                            <div className="book-actions">
                                 <button
                                     onClick={() => openEditModal(book)}
-                                    style={{
-                                        marginRight: '10px',
-                                        padding: '5px 10px',
-                                        backgroundColor: '#4CAF50',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
+                                    className="edit-btn"
                                 >
                                     Edit
                                 </button>
@@ -191,7 +165,7 @@ const BookList = () => {
                         </li>
                     ))
                 ) : (
-                    <p>No books found.</p>
+                    <p className="no-books">No books found.</p>
                 )}
             </ul>
 
@@ -214,3 +188,4 @@ const BookList = () => {
 };
 
 export default BookList;
+

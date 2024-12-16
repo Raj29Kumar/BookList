@@ -1,6 +1,9 @@
 import React from 'react';
 import '../App.css';
 
+
+
+
 const SearchBar = ({ query, setQuery }) => {
   return (
     <div className="search-bar">

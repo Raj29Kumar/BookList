@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBooks } from '../redux/booksSlice';
 import Pagination from './Pagination';
 import AddBook from './AddBook';
 import EditBookModal from './EditBookModel';
 import '../App.css';
+import BookSearch from '../compo/BookSearch';
+import BookListComponent from './BookListComponent';  // Import the new component
 
 const BookList = () => {
     const [query, setQuery] = useState('');
@@ -109,7 +110,7 @@ const BookList = () => {
 
     return (
         <div className="book-list-container">
-            <SearchBar query={query} setQuery={setQuery} />
+            <BookSearch />
 
             <div className="controls">
                 <div className="sort-controls">
@@ -142,32 +143,8 @@ const BookList = () => {
                 {isModalOpen && <AddBook closeModal={closeModal} />}
             </div>
 
-            <ul className="book-list">
-                {currentBooks.length > 0 ? (
-                    currentBooks.map((book) => (
-                        <li key={book.id} className="book-item">
-                            <div className="book-details">
-                                <strong>Title:</strong> {book.title || 'N/A'}
-                                <br />
-                                <strong>Author:</strong> {book.author || 'N/A'}
-                                <br />
-                                <strong>Year:</strong> {book.year || 'N/A'}
-                            </div>
-
-                            <div className="book-actions">
-                                <button
-                                    onClick={() => openEditModal(book)}
-                                    className="edit-btn"
-                                >
-                                    Edit
-                                </button>
-                            </div>
-                        </li>
-                    ))
-                ) : (
-                    <p className="no-books">No books found.</p>
-                )}
-            </ul>
+            {/* Use the BookListComponent */}
+            <BookListComponent currentBooks={currentBooks} openEditModal={openEditModal} />
 
             <Pagination
                 currentPage={currentPage}
@@ -188,4 +165,3 @@ const BookList = () => {
 };
 
 export default BookList;
-

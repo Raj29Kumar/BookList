@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addBook } from '../redux/booksSlice';
-import '../App.css'; // Assuming CSS file is named AddBook.css
+import { addBook, fetchBooks } from '../redux/booksSlice';
+import '../App.css';
 
 const AddBook = ({ closeModal }) => {
   const [formData, setFormData] = useState({
-    author: '', 
+    author: '',
     country: '',
     language: '',
     link: '',
@@ -28,8 +28,14 @@ const AddBook = ({ closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(addBook(formData)).unwrap(); 
+      // Dispatch the addBook action
+      const newBook = await dispatch(addBook(formData)).unwrap(); 
       alert('Book added successfully!');
+      
+      // After adding the book, you may want to fetch the updated list of books
+      dispatch(fetchBooks()); // Ensure books are updated in the state
+
+      // Close the modal
       closeModal();
     } catch (error) {
       alert('Failed to add book: ' + error.message);

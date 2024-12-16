@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-
+// Fetch books from the API
 export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
   const response = await fetch('http://64.227.142.191:8080/application-test-v1.1/books');
   if (!response.ok) {
@@ -10,7 +10,7 @@ export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
   return data.data || []; 
 });
 
-
+// Add a new book via POST request
 export const addBook = createAsyncThunk('books/addBook', async (bookData) => {
   const response = await fetch('http://64.227.142.191:8080/application-test-v1.1/books', {
     method: 'POST',
@@ -36,15 +36,9 @@ const booksSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    resetState: (state) => {
-      state.loading = false;
-      state.error = null;
-    },
-  },
   extraReducers: (builder) => {
     builder
-     
+      // Handling fetchBooks
       .addCase(fetchBooks.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -57,13 +51,14 @@ const booksSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-     
+      
+      // Handling addBook
       .addCase(addBook.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(addBook.fulfilled, (state, action) => {
-        state.books.push(action.payload); 
+        state.books.push(action.payload);
         state.loading = false;
       })
       .addCase(addBook.rejected, (state, action) => {
@@ -73,5 +68,4 @@ const booksSlice = createSlice({
   },
 });
 
-export const { resetState } = booksSlice.actions;
 export default booksSlice.reducer;

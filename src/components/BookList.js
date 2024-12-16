@@ -40,7 +40,7 @@ const BookList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
-    return <p>Loading books...</p>;
+    return;
   }
 
   if (error) {

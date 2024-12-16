@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchBooks } from '../redux/booksSlice';
 
 const EditBook = ({ book, closeModal, onBookUpdated }) => {
+  const dispatch = useDispatch(); // Initialize dispatch
   const [formData, setFormData] = useState({
     author: '',
     country: '',
@@ -51,6 +54,7 @@ const EditBook = ({ book, closeModal, onBookUpdated }) => {
         const updatedBook = await response.json();  // Get the updated book data from the response
         onBookUpdated(updatedBook); 
         alert('Book edited'); // Call the parent function to update the list
+        dispatch(fetchBooks()); // Use dispatch to fetch books
         closeModal();  // Close the modal after submitting
       } else {
         console.error('Error updating book');

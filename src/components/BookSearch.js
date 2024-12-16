@@ -6,7 +6,7 @@ const BookSearch = ({ onSearch }) => {
 
     const handleSearch = (e) => {
         setQuery(e.target.value);
-        onSearch(e.target.value); // Pass the query back to parent
+        onSearch(e.target.value);
     };
 
     return (
@@ -14,7 +14,7 @@ const BookSearch = ({ onSearch }) => {
             <input
                 type="text"
                 value={query}
-                onChange={handleSearch} // Trigger search on input change
+                onChange={handleSearch}
                 placeholder="Search by book title"
             />
         </div>

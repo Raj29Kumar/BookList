@@ -1,31 +1,18 @@
 import React, { useState } from 'react';
-import EditBook from './EditBook'; // Ensure this is the correct path to your EditBook component
+import EditBook from './EditBook';
 
 const BookListComponent = ({ currentBooks }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState(null); // Store the selected book for editing
+  const [selectedBook, setSelectedBook] = useState(null);
 
-  // Function to open the modal and set the selected book
   const openEditModal = (book) => {
-    setSelectedBook(book); // Set the selected book to edit
-    setIsModalOpen(true);  // Open the modal
+    setSelectedBook(book);
+    setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const closeEditModal = () => {
-    setIsModalOpen(false); // Close the modal
-    setSelectedBook(null);  // Clear the selected book
-  };
-
-  const handleUpdateBook = (updatedBook) => {
-    // Update the list of books with the updated book data
-    const updatedBooks = currentBooks.map((book) =>
-      book.id === updatedBook.id ? updatedBook : book
-    );
-    // Assuming you want to pass the updated list to the parent or update local state
-    // If you need to update the books in a parent component, you can call a callback here
-    // Example: onBooksUpdated(updatedBooks);
-    closeEditModal(); // Close modal after update
+    setIsModalOpen(false);
+    setSelectedBook(null);
   };
 
   return (
@@ -49,17 +36,12 @@ const BookListComponent = ({ currentBooks }) => {
             </li>
           ))
         ) : (
-          <p className="no-books">No books found.</p>
+          <p>No books found.</p>
         )}
       </ul>
 
-      {/* Modal for editing the book */}
       {isModalOpen && (
-        <EditBook
-          book={selectedBook}
-          closeModal={closeEditModal}
-          onBookUpdated={handleUpdateBook}
-        />
+        <EditBook book={selectedBook} closeModal={closeEditModal} />
       )}
     </div>
   );

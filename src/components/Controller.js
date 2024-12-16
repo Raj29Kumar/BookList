@@ -6,13 +6,12 @@ const Controller = ({
     setSortField,
     sortOrder,
     setSortOrder,
-    openModal, // Function to open modal
-    isModalOpen, // Modal state
-    AddBookComponent, // AddBook component
+    openModal,
+    isModalOpen,
+    AddBookComponent,
 }) => {
     return (
         <div className="controls">
-            {/* Sorting Controls */}
             <div className="sort-controls">
                 <label htmlFor="sortField">Sort by: </label>
                 <select
@@ -24,8 +23,6 @@ const Controller = ({
                     <option value="author">Author</option>
                 </select>
             </div>
-
-            {/* Sort Order Toggle Button */}
             <div className="sort-button">
                 <button
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
@@ -34,15 +31,11 @@ const Controller = ({
                     {sortOrder === 'asc' ? 'Click To Descending' : 'Click To Ascending'}
                 </button>
             </div>
-
-            {/* Add Book Button */}
             <div className="add-book">
                 <button onClick={openModal} className="add-book-btn">
                     Add New Book
                 </button>
             </div>
-
-            {/* AddBook Modal Component */}
             {isModalOpen && AddBookComponent}
         </div>
     );

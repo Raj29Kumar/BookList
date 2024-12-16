@@ -51,11 +51,11 @@ const EditBook = ({ book, closeModal, onBookUpdated }) => {
       });
 
       if (response.ok) {
-        const updatedBook = await response.json();  // Get the updated book data from the response
+        const updatedBook = await response.json(); 
         onBookUpdated(updatedBook); 
-        alert('Book edited'); // Call the parent function to update the list
-        dispatch(fetchBooks()); // Use dispatch to fetch books
-        closeModal();  // Close the modal after submitting
+        alert('Book edited'); 
+        dispatch(fetchBooks()); 
+        closeModal(); 
       } else {
         console.error('Error updating book');
       }
@@ -161,7 +161,7 @@ const EditBook = ({ book, closeModal, onBookUpdated }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter ID"
-                disabled // ID should not be edited directly
+                disabled
               />
             </div>
           </div>

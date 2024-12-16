@@ -28,14 +28,9 @@ const AddBook = ({ closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Dispatch the addBook action
       const newBook = await dispatch(addBook(formData)).unwrap(); 
       alert('Book added successfully!');
-      
-      // After adding the book, you may want to fetch the updated list of books
-      dispatch(fetchBooks()); // Ensure books are updated in the state
-
-      // Close the modal
+      dispatch(fetchBooks()); 
       closeModal();
     } catch (error) {
       alert('Failed to add book: ' + error.message);
